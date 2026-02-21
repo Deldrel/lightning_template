@@ -10,25 +10,21 @@ from pydantic_settings import BaseSettings
 class DataCfg(BaseModel):
     batch_size: PositiveInt = 64
     num_workers: PositiveInt = 7
-    use_augmentation: bool = False
-    augmentation_strength: float = 0.1
 
 
 class TrainCfg(BaseModel):
-    force_cpu: bool = False
+    force_cpu: bool = True
     learning_rate: PositiveFloat = 0.001
     max_epochs: PositiveInt = 10
     fast_dev_run: bool = True
-    optimizer: str = "adam"
     weight_decay: float = 0.0
-    use_scheduler: bool = False
     callback_verbose: bool = False
 
 
 class WandbCfg(BaseModel):
     root_path: Path = Path(__file__).resolve().parents[2]
 
-    use_wandb: bool = True
+    use_wandb: bool = False
     project: str = "lightning_template"
     entity: str = "deldrel"
 

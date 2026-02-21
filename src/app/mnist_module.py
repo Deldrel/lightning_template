@@ -1,13 +1,13 @@
 import torch.nn as nn
 import torch.optim as optim
 
-from app.base_model import BaseModel
+from app.base_module import BaseModule
 from app.settings import AppSettings
 
 
-class MNISTModel(BaseModel):
+class MNISTModule(BaseModule):
     def __init__(self, settings: AppSettings):
-        super(MNISTModel, self).__init__(settings)
+        super(MNISTModule, self).__init__(settings)
 
         # Make model architecture configurable
         conv1_channels = 32

@@ -2,6 +2,7 @@ from pathlib import Path
 from typing import Optional
 
 from lightning import LightningDataModule
+from torch import Generator
 from torch.utils.data import DataLoader, Dataset, random_split
 from torchvision.datasets import MNIST
 from torchvision.transforms import ToTensor
@@ -25,19 +26,27 @@ class DataModule(LightningDataModule):
         MNIST(self.data_path, train=False, download=True)
 
     def setup(self, stage: Optional[str] = None) -> None:
-        if stage == "fit":
-            mnist_full = MNIST(self.data_path, train=True, transform=ToTensor())
-            self.train_set, self.val_set = random_split(mnist_full, [55000, 5000])
-
-        elif stage == "test":
-            self.test_set = MNIST(self.data_path, train=False, transform=ToTensor())
-
-        elif stage == "predict":
-            self.predict_set = MNIST(self.data_path, train=False, transform=ToTensor())
-
-        else:
+        valid_stages = {None, "fit", "validate", "test", "predict"}
+        if stage not in valid_stages:
             message = f"Stage '{stage}' is not recognized."
             raise ValueError(message)
+
+        if stage in (None, "fit", "validate") and (
+            self.train_set is None or self.val_set is None
+        ):
+            mnist_full = MNIST(self.data_path, train=True, transform=ToTensor())
+            split_generator = Generator().manual_seed(self.settings.seed)
+            self.train_set, self.val_set = random_split(
+                mnist_full,
+                [55000, 5000],
+                generator=split_generator,
+            )
+
+        if stage in (None, "test") and self.test_set is None:
+            self.test_set = MNIST(self.data_path, train=False, transform=ToTensor())
+
+        if stage in (None, "predict") and self.predict_set is None:
+            self.predict_set = MNIST(self.data_path, train=False, transform=ToTensor())
 
     def _get_dataloader(self, dataset: Dataset, shuffle: bool = False) -> DataLoader:
         return DataLoader(
