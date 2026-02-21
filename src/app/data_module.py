@@ -6,7 +6,7 @@ from torch.utils.data import DataLoader, Dataset, random_split
 from torchvision.datasets import MNIST
 from torchvision.transforms import ToTensor
 
-from lightning_template.settings import AppSettings
+from app.settings import AppSettings
 
 
 class DataModule(LightningDataModule):

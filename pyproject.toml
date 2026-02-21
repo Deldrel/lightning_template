@@ -1,16 +1,16 @@
 [project]
-name = "lightning-template"
+name = "app"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 license = { file = "LICENSE" }
 authors = [
-    { name = "pierre" }
+    { name = "Pierre Lapolla" }
 ]
 requires-python = ">=3.11"
 dependencies = [
     "lightning<2.5.0",
-    "pedros>=0.0.11",
+    "pedros>=0.12.2",
     "pydantic-settings>=2.8.1",
     "rich<14.0.0",
     "torch<2.6.0",
@@ -27,4 +27,11 @@ dev = [
     "pre-commit>=4.2.0",
     "pytest>=8.3.5",
     "pytest-cov>=6.0.0",
+    "ruff>=0.15.2",
 ]
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+addopts = "-ra -q --cov=. --cov-report=html"
+testpaths = ["tests"]
+pythonpath = ["src"]

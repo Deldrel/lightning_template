@@ -1,11 +1,10 @@
 from functools import cache
 from pathlib import Path
-from typing import Callable
 
 from lightning.pytorch.loggers import WandbLogger
 from pedros import has_dep, get_logger
 
-from lightning_template.settings import get_settings
+from app.settings import get_settings
 
 
 class WandbManager:
@@ -24,7 +23,7 @@ class WandbManager:
             return self.wandb.init(
                 project=self.settings.wandb.project,
                 entity=self.settings.wandb.entity,
-                dir=str(self.settings.wandb.root_path)
+                dir=str(self.settings.wandb.root_path),
             )
         return None
 
@@ -45,23 +44,6 @@ class WandbManager:
                 experiment=self.wandb.run,
             )
         return None
-
-    def run_sweep(self, train_fn: Callable[[], None]):
-        if not self.wandb:
-            self.logger.warning("Wandb is not installed. Skipping sweep.")
-            return None
-
-        sweep_id = self.wandb.sweep(
-            sweep=self.settings.wandb.sweep_config,
-            project=self.settings.wandb.project,
-            entity=self.settings.wandb.entity,
-        )
-        self.wandb.agent(
-            sweep_id=sweep_id,
-            function=train_fn,
-            count=self.settings.wandb.sweep_count,
-        )
-        return sweep_id
 
 
 @cache

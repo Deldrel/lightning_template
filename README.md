@@ -1,19 +1,29 @@
-# Project Title
+![Ruff](https://img.shields.io/badge/ruff-enabled-brightgreen)
+![License](https://img.shields.io/badge/license-MIT-green)
 
-Project description
+# Python App Template
+
+This project provides a starter structure and tooling for Python apps, aiming for a consistent and modern dev
+experience.
 
 ## Installation
 
 ### Requirements
 
-- [UV](https://docs.astral.sh/uv/)
-- Project name in [pyproject.toml](pyproject.toml) file must be the same as your module's name in `src` folder.
-- [Pytorch Lightning](https://lightning.ai/docs/pytorch/latest/) knowledge.
+- [UV](https://docs.astral.sh/uv/) package manager
 
-### Initialize the project:
+### Clone the repository
+
+```bash
+  git clone https://github.com/PierreLapolla/lightning_template.git
+  cd python_template
+```
+
+### Initialize your environment
 
 ```bash
   uv sync
+  uv run pre-commit install
 ```
 
 ## Running the project
@@ -21,7 +31,7 @@ Project description
 To run the project locally, run the following command:
 
 ```bash
-  uv run python -m src.lightning_template
+  uv run -m src.app
 ```
 
 ## Tests, linting and formatting
@@ -38,6 +48,12 @@ To run the project locally, run the following command:
   uvx ruff format .
 ```
 
+Run all hooks manually:
+
+```bash
+  uv run pre-commit run --all-files
+```
+
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT [LICENSE](LICENSE)

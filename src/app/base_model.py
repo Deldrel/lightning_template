@@ -7,8 +7,8 @@ import torch
 from lightning import LightningModule
 from torch.optim import Adam
 
-from lightning_template.settings import AppSettings
-from lightning_template.wandb_manager import get_wandb
+from app.settings import AppSettings
+from app.wandb_manager import get_wandb
 
 
 class BaseModel(LightningModule, ABC):
@@ -35,7 +35,7 @@ class BaseModel(LightningModule, ABC):
         x, y = batch
         y_hat = self(x)
         loss = self.loss_func(y_hat, y)
-        self.log(loss_name, loss)
+        self.log(loss_name, loss, prog_bar=True)
         return loss
 
     def training_step(self, batch, batch_idx, dataloader_idx=0) -> Any:
