@@ -16,7 +16,7 @@ class TrainCfg(BaseModel):
     force_cpu: bool = True
     learning_rate: PositiveFloat = 0.001
     max_epochs: PositiveInt = 10
-    fast_dev_run: bool = True
+    fast_dev_run: bool = False
     weight_decay: float = 0.0
     callback_verbose: bool = False
 
